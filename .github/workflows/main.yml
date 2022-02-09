@@ -33,11 +33,15 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          TEST_ENV: SUCCESS
 
       - name: Configure AWS credentials from OIDC account
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::666025726922:role/react-ci-deploy-role
           aws-region: ap-south-1
+      - name: Empty bucket
+        run: "aws s3 rm s3://react-ci-web-app --recursive"
       - name: Save to bucket
         run: "aws s3 sync build/ s3://react-ci-web-app"
