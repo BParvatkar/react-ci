@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
+  console.log("REACT_APP_TEST_ENV", process.env.REACT_APP_TEST_ENV);
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +16,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React {process.env.TEST_ENV}
+          Learn React {process.env.REACT_APP_TEST_ENV}
         </a>
       </header>
     </div>
