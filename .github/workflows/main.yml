@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          TEST_ENV: SUCCESS
+          REACT_APP_TEST_ENV: SUCCESS
 
       - name: Configure AWS credentials from OIDC account
         uses: aws-actions/configure-aws-credentials@v1
