@@ -21,39 +21,23 @@ jobs:
       - name: Print ls
         run: ls -a
 
-      # - uses: actions/setup-node@v2
-      #   with:
-      #     node-version: "14"
-      #     cache: "npm"
-      # - run: npm install
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
+      - uses: actions/setup-node@v2
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.yarn
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-          # restore-keys: |
-          #   ${{ runner.os }}-build-${{ env.cache-name }}-
-          #   ${{ runner.os }}-build-
-          #   ${{ runner.os }}-
+          node-version: "14"
+          cache: "yarn"
+      - run: yarn install
 
-      - name: Install Dependencies
-        run: yarn
+      - name: Build
+        run: yarn build
+        env:
+          REACT_APP_TEST_ENV: SUCCESS
 
-      # - name: Build
-      #   run: npm run build
-      #   env:
-      #     REACT_APP_TEST_ENV: SUCCESS
-
-      # - name: Configure AWS credentials from OIDC account
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     role-to-assume: arn:aws:iam::666025726922:role/react-ci-deploy-role
-      #     aws-region: ap-south-1
-      # - name: Empty bucket
-      #   run: "aws s3 rm s3://react-ci-web-app --recursive"
-      # - name: Save to bucket
-      #   run: "aws s3 sync build/ s3://react-ci-web-app"
+      - name: Configure AWS credentials from OIDC account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::666025726922:role/react-ci-deploy-role
+          aws-region: ap-south-1
+      - name: Empty bucket
+        run: "aws s3 rm s3://react-ci-web-app --recursive"
+      - name: Save to bucket
+        run: "aws s3 sync build/ s3://react-ci-web-app"
